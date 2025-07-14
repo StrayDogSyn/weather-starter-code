@@ -77,7 +77,9 @@ This is a simplified example—real weather prediction uses more features (e.g.,
 ## Project Structure
 
 - `demo_weather_predictor.py`: Full demo script for live coding.
+- `breakout_activity.py`: Starter code for breakout activity.
 - `weather_predictor_starter.py`: Starter code for hands-on activity.
+- `weather_predictor.py`: Sample weather predictor class.
 - `weather_history.csv`: Sample data file.
 - `requirements.txt`: Dependencies.
 - `README.md`: This file.
