@@ -17,7 +17,7 @@ This is a simplified example—real weather prediction uses more features (e.g.,
 
 1. Clone the repository:
    ```
-   git clone <your-repo-url>
+   git clone git@github.com:SarahE-Dev/weather-starter-code.git
    cd weather-starter-code
    ```
 
