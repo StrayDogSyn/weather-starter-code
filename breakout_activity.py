@@ -89,7 +89,8 @@ def main():
             
             # TODO: Make a prediction for tomorrow
             recent_temps = weather_data['temperature'].tail(num_days).values
-            prediction = model.predict([recent_temps])[0]
+            recent_temps_array = np.array(recent_temps).reshape(1, -1)
+            prediction = model.predict(recent_temps_array)[0]
             
             print(f"   📈 Recent {num_days} days: {recent_temps}")
             print(f"   🔮 Tomorrow's prediction: {prediction:.1f}°F")

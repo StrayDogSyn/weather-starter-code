@@ -58,11 +58,11 @@ class WeatherPredictor:
         # Loop through the data starting from index self.num_days
         for i in range(self.num_days, len(temperatures)):
             # TODO: Extract past N days as features
-            past_days = None  # Replace with: temperatures[i-self.num_days:i]
+            past_days = temperatures[i-self.num_days:i]
             features.append(past_days)
             
             # TODO: Current day is the target
-            targets.append(None)  # Replace with: temperatures[i]
+            targets.append(temperatures[i])
         
         return np.array(features), np.array(targets)
     
@@ -82,22 +82,21 @@ class WeatherPredictor:
         print("Training the model...")
         
         # TODO: Prepare features and targets
-        X, y = None, None  # Replace with: self.prepare_features(data)
+        X, y = self.prepare_features(data)
         
         if len(X) < 10:
             raise ValueError(f"Not enough data for training. Need at least {self.num_days + 10} days.")
         
         # TODO: Split data for training and validation
-        X_train, X_test, y_train, y_test = None, None, None, None
-        # Hint: Use train_test_split(X, y, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
         # TODO: Train the model
-        # Hint: Use self.model.fit(X_train, y_train)
+        self.model.fit(X_train, y_train)
         
         # TODO: Evaluate the model
-        y_pred = None  # Replace with: self.model.predict(X_test)
-        r2 = None      # Replace with: r2_score(y_test, y_pred)
-        rmse = None    # Replace with: np.sqrt(mean_squared_error(y_test, y_pred))
+        y_pred = self.model.predict(X_test)
+        r2 = r2_score(y_test, y_pred)
+        rmse = np.sqrt(mean_squared_error(y_test, y_pred))
         
         print(f"Done! The model has learned the patterns.")
         print(f"Model performance - R² score: {r2:.3f}, RMSE: {rmse:.1f}°F")
@@ -122,10 +121,10 @@ class WeatherPredictor:
             raise ValueError("Model must be trained before making predictions.")
         
         # TODO: Get the last N days of temperature data
-        recent_temps = None  # Replace with: data['temperature'].tail(self.num_days).values
+        recent_temps = data['temperature'].tail(self.num_days).values
         
         # TODO: Make prediction
-        prediction = None  # Replace with: self.model.predict([recent_temps])[0]
+        prediction = self.model.predict(recent_temps.reshape(1, -1))[0]
         
         return prediction
     
@@ -145,8 +144,8 @@ class WeatherPredictor:
             return "Not enough data for trend analysis"
         
         # TODO: Calculate the average change between consecutive days
-        changes = None      # Replace with: np.diff(recent_temps)
-        avg_change = None   # Replace with: np.mean(changes)
+        changes = np.diff(recent_temps)
+        avg_change = np.mean(changes)
         
         # TODO: Determine trend based on average change
         if avg_change > 0.5:
@@ -165,7 +164,7 @@ def main():
     # Load weather data
     try:
         # TODO: Load the CSV file
-        data = None  # Replace with: pd.read_csv('weather_history.csv')
+        data = pd.read_csv('weather_history.csv')
         print("Our data:")
         print(data.head(10))
         print(f"\nWe have {len(data)} examples to learn from\n")
@@ -180,18 +179,18 @@ def main():
     
     # TODO: Create and train the weather predictor
     # Try different values for num_days (2, 3, 5, 7) to see how it affects predictions!
-    predictor = None  # Replace with: WeatherPredictor(num_days=3)
+    predictor = WeatherPredictor(num_days=3)
     
     try:
         # TODO: Train the model
-        # Hint: predictor.train(data)
+        predictor.train(data)
         
         # TODO: Make a prediction for tomorrow
-        prediction = None  # Replace with: predictor.predict_tomorrow(data)
+        prediction = predictor.predict_tomorrow(data)
         
         # TODO: Analyze trend
         recent_temps = data['temperature'].tail(3).values
-        trend = None  # Replace with: predictor.analyze_trend(recent_temps)
+        trend = predictor.analyze_trend(recent_temps)
         
         # Display results
         print(f"\nLast 3 days: {recent_temps}")
