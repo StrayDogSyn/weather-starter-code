@@ -74,7 +74,7 @@ def main():
     print("="*40)
     
     # Experiment with different numbers of days
-    for num_days in [3, 5, 7]:
+    for num_days in [3, 5, 7, 9, 30, 60, 90]:
         print(f"\n🔬 Trying with {num_days} days of history...")
         
         # TODO: Prepare the data
